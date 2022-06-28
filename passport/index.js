@@ -1,8 +1,8 @@
 require('dotenv').config();
-
 const passport = require('passport');
 // const google = require('./google');
 const kakao = require('./kakao');
+
 module.exports = () => {
     passport.serializeUser((user, done) => {
         // req.login(user, ...)의 user가 넘어와 값을 이용할수 있다.

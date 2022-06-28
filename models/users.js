@@ -6,7 +6,7 @@ const UserSchema = mongoose.Schema(
         userId : {
             type : String,
             require : true,
-            unicqe:true
+            unique:true
         },
         nickname:String,
         userImage:String,

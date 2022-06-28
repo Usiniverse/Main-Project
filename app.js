@@ -1,4 +1,3 @@
-require('dotenv').config()
 const express = require("express");
 // const mongoose = require("mongoose");
 // const cors = require("cors");
@@ -7,7 +6,7 @@ const passportConfig = require('./passport')
 // const requestMiddleware = ("./middlewares/requestMiddleware");
 const PostRouter = ("./router/postRouter");
 const UserRouter = ("./router/userRouter");
-
+require('dotenv').config()
 const port = 8080;
 
 // const corsOption = {
@@ -19,6 +18,8 @@ const port = 8080;
 // connectDB();
 // const db = mongoose.connection;
 // db.on("error", console.error.bind(console, "connection error:"));
+
+
 
 // 서버어플리케이션
 const app = express();

@@ -1,13 +1,10 @@
 const jwt = require("jsonwebtoken");
 const UserDB = require("../models/users");
 
-async function kakaoCallback (req, res, next) {
-    passport.authenticate(
-        'kakao',
-        { failureRedirect: '/' },
-        (err, user, info) => {
+const kakaoCallback = (req, res, next) => {
+    passport.authenticate('kakao',{ failureRedirect: '/' },(err, user) => {
             if (err) return next(err)
-            console.log('콜백~~~')
+            console.log('콜백')
             const { userId, nickName, userImage } = user;
             const token = jwt.sign({ userId }, process.env.MY_KEY)
 
