@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const UserDB = require("../models/users");
 
+//카카오 로그인
+
 const kakaoCallback = (req, res, next) => {
     passport.authenticate('kakao',{ failureRedirect: '/' },(err, user) => {
             if (err) return next(err)
@@ -20,6 +22,12 @@ const kakaoCallback = (req, res, next) => {
         }
     )(req, res, next)
 }
+// 구글 로그인
+
+
+
+
+// 네이버 로그인
 
 
 async function checkMe(req, res) {
