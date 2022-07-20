@@ -77,6 +77,7 @@ async function createRoom(req, res) {
 
     const newRoom = await Rooms.create({
       max: max,
+
       hashTag: hashTag,
       title: title,
       hostNickname: nickname,
