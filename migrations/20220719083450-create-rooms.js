@@ -11,6 +11,9 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
       },
+      hostId: {
+         type: Sequelize.STRING,
+      },
       hostNickname: {
         type: Sequelize.STRING,
       },
@@ -22,6 +25,8 @@ module.exports = {
       },
       hashTag: {
         type: Sequelize.JSON,
+      }, userId: {
+       type: Sequelize.JSON,
       },
       roomUserNickname: {
         type: Sequelize.JSON,

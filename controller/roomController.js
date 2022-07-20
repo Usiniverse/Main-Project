@@ -23,6 +23,14 @@ async function allRoomList(req, res) {
     return res.status(400).send({ msg: "룸 조회가 되지 않았습니다." });
   }
 }
+async function Roomdetail(req, res) {
+  const { roomId } = req.params;
+  const { userId } = res.locals;
+  const Room = await Rooms.findOne({ where: { roomId: roomId } });
+  const chatingRooms = await Rooms.findAll({ where: { userId: userId } });
+  res.status(200),
+    send({ msg: "룸 상세조회에 성공했습니다.", chatingRooms, Room });
+}
 
 // async function keywordList(req, res) {
 //   const { roomId } = req.params;
@@ -78,12 +86,14 @@ async function createRoom(req, res) {
       hashTag: hashTag,
       title: title,
       hostNickname: nickname,
+      hostId:userId,
       hostImg: userImage,
       createdAt: Date(),
       updatedAt: Date(),
-      roomUserNickname: null,
+      userId:[],
+      roomUserNickname: [],
       roomUserNum: 1,
-      roomUserImg: null,
+      roomUserImg: [],
     });
 
     return res.status(200).send({ msg: "완료", newRoom });
@@ -162,4 +172,5 @@ module.exports = {
   exitRoom,
   //   checkRoomPw,
   //   kickUser
+  Roomdetail
 };
