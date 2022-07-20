@@ -70,27 +70,21 @@ async function createRoom(req, res) {
     const existRoom = await Rooms.findOne({
       where: { title: title },
     });
+
     if (existRoom) {
       return res.status(400).send({ msg: "방이름이 중복됩니다" });
     }
-    console.log(hashTag);
-    // let key = userId;
-    // let hostNickname = {};
-    // let hostImg = {};
-    // hostNickname[userId] = userImage;
-    //  hostImg[userId] = userImage;
-    // console.log(hostNickname, hostImg);
 
     const newRoom = await Rooms.create({
       max: max,
       hashTag: hashTag,
       title: title,
       hostNickname: nickname,
-      hostId:userId,
+      hostId: userId,
       hostImg: userImage,
       createdAt: Date(),
       updatedAt: Date(),
-      userId:[],
+      roomUserId: [],
       roomUserNickname: [],
       roomUserNum: 1,
       roomUserImg: [],
@@ -102,21 +96,22 @@ async function createRoom(req, res) {
   }
 }
 
-
 async function enterRoom(req, res) {
   const { roomId } = req.params;
   const { userId, nickname, userImage } = res.locals;
-  const room = await Rooms.findOne({ where: { roomId: roomId } });
+  let room = await Rooms.findOne({ where: { roomId: roomId } });
   try {
-    room.roomUserNickname.push((Object[userId] = nickname));
+    room.roomUserId.push(userId);
+    room.roomUserNickname.push(nickname);
     roomUserNum = room.roomUserNickname.langth + 1;
-    room.roomUserImg.push((Object[userId] = userImage));
-    await room.update(
+    room.roomUserImg.push(userImage);
+    room = await room.update(
+      { roomUserId: roomUserId },
       { roomUserNickname: roomUserNickname },
       { roomUserNum: roomUserNum },
       { roomUserImg: roomUserImg }
     );
-    return res.status(201).send({ msg: "입장 완료" });
+    return res.status(201).send({ msg: "입장 완료", room });
   } catch (err) {
     res.status(400).send({
       msg: "공개방 입장에 실패하였습니다.",
@@ -134,16 +129,24 @@ async function exitRoom(req, res) {
   //   (roomUser) => roomUser.userId !== userId
   // );
 
-  if (userId === room.userId) {
+  if (userId === room.hostId) {
     await Chats.destroy({ roomId: roomId });
     await Rooms.destroy({ roomId: roomId });
   } else {
-    let roomUserNum = room.roomUserNickname.langth + 1;
-    console.log(room.roomUserImg, room.roomUserImg.userId, userImage);
-    const roomUserImg = room.roomUserImg.filter(room.roomUserImguserImage);
+    const roomUsersId = room.roomuserId.filter(
+      (roomUsersId) => roomUsersId != userId
+    );
+    const roomUsersNickname = room.roomUserNickname.filter(
+      (roomUsersNickname) => roomUsersNickname != nickname
+    );
+    const roomUsersImg = room.roomUserImg.filter(
+      (roomUsersImg) => roomUsersImg != userImg
+    );
+      const roomUserNum = roomUsersId.langth+1
     await room.update(
-      { roomUserNickname: roomUserNickname },
-      { roomUserImg: roomUserImg },
+      { roomuserId: roomUsersId },
+      { roomUserNickname: roomUsersNickname },
+      { roomUserImg: roomUsersImg },
       { roomUserNum: roomUserNum }
     );
   }
@@ -172,5 +175,5 @@ module.exports = {
   exitRoom,
   //   checkRoomPw,
   //   kickUser
-  Roomdetail
+  Roomdetail,
 };

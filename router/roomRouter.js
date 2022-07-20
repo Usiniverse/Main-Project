@@ -11,5 +11,5 @@ router.get("/:roomId", authMiddleware, roomController.Roomdetail);
 router.post("/", authMiddleware, roomController.createRoom);
 router.post("/:roomId", authMiddleware, roomController.enterRoom);
 router.delete("/:roomId", authMiddleware, roomController.exitRoom);
-
+// router.delete("/:roomId", authMiddleware, roomController.kickUser);
 module.exports = router;
