@@ -28,10 +28,17 @@ module.exports = (server, app) => {
         return;
       }
       socket.join(enterRoom.title);
-      const nickName =
-      enterRoom.userNickname[enterRoom.userNickname.length - 1];
-      socket.to(enterRoom.title).emit("welcome", nickName );
-
+      console.log(enterRoom.hostNickname);
+      if (enterRoom.roomUserId===[]) {
+        let nickName = enterRoom.hostNickname;
+        console.log("호스트닉네임=", nickName);
+        socket.to(enterRoom.title).emit("welcome", nickName);
+      } else {
+        let lastUser = enterRoom.userNickname.length - 1;
+        let nickName = enterRoom.userNickname[lastUser];
+        console.log("유저닉네임=", nickName);
+        socket.to(enterRoom.title).emit("welcome", nickName);
+      }
     });
 
     socket.on("chat_message", async (messageChat, userId, roomId) => {
@@ -43,7 +50,6 @@ module.exports = (server, app) => {
         chat: messageChat,
         userImg: chatUser.userImage,
       });
-
 
       socket.emit(
         "message",
