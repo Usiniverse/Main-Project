@@ -320,6 +320,7 @@ async function DeletePost(req, res) {
   const { postId } = req.params;
 
   const existPost = await posts.findOne({ where: { postId } });
+  await Like.destroy({where:{postId:postId}})
   const imageKey = await images.findOne({ where: { postImageKEY, thumbnailKEY } })
   console.log(existPost);
   console.log(imageKey);
