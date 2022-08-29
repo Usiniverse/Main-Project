@@ -277,6 +277,7 @@ async function GetPostingList(req, res) {
       );
     }
     res.status(200).send({ Top5, allPost });
+    // console.log(allPost)
   } catch (err) {
     res.status(400).send({ msg: "포스트 전체조회에 실패했습니다." });
   }
@@ -284,7 +285,7 @@ async function GetPostingList(req, res) {
 
 // 유저 커뮤니티 게시글 상세 조회
 async function GetPost(req, res) {
-  try {
+  //try {
     const { postId } = req.params;
     let queryData = res.locals;
 
@@ -346,8 +347,7 @@ async function GetPost(req, res) {
     const writtenTime = Date.parse(allPostInfo.createdAt);
     const timeNow = Date.parse(Date());
     const diff = timeNow - writtenTime;
-    let allPost = {}
-    await posts.update(
+   await posts.update(
       {
         likeNum: likeNum,
         commentNum: commentNum,
@@ -355,6 +355,7 @@ async function GetPost(req, res) {
       },
       { where: { postId: allPostInfo.postId } }
     );
+    let allPost = {};
     if (diff > 1123200000) {
     } else {
       const times = [
@@ -390,6 +391,7 @@ async function GetPost(req, res) {
             updatedAt: allPostInfo.updatedAt,
             images: allPostInfo.images,
           }]
+          console.log(allPost, ' 너나오냐')
           break;
         }else {
          allPost =[{
@@ -417,7 +419,7 @@ async function GetPost(req, res) {
         }
       }
     }
-
+    // console.log(allPost, '올포스트 나오나?')
     //글쓴이의 다른 게시물
 
     const outherPosts = await posts.findAll({
@@ -601,14 +603,15 @@ async function GetPost(req, res) {
         );
       }
       
-      res.send({ allPost, findAllAcc, outherPostInfo });
+      res.send({ allPostInfo, findAllAcc, outherPostInfo });
+      console.log(allPostInfo,' 왜 아무 반응이 없지')
     } else {
       
-      res.send({ allPost, findAllAcc, outherPostInfo });
+      res.send({ allPostInfo, findAllAcc, outherPostInfo });
     }
-  } catch (err) {
-    res.status(400).send({ msg: "포스트 상세조회에 실패했습니다." });
-  }
+  // } catch (err) {
+  //   res.status(400).send({ msg: "포스트 상세조회에 실패했습니다." });
+  // }
 }
 
 // 유저 커뮤니티 게시글 수정
