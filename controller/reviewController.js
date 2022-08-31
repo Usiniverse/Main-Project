@@ -32,13 +32,13 @@ async function readReview(req, res) {
         const timeNow = Date.parse(Date());
         const diff = timeNow - writtenTime;
 
-        if (diff > 1123200000) {
-        } else {
+        
           const times = [
             { time: "분", milliSeconds: 1000 * 60 },
             { time: "시간", milliSeconds: 1000 * 60 * 60 },
             { time: "일", milliSeconds: 1000 * 60 * 60 * 24 },
             { time: "주", milliSeconds: 1000 * 60 * 60 * 24 * 7 },
+            { time: "달", milliSeconds: 1000 * 60 * 60 * 24 * 30 },
           ].reverse();
 
           for (const value of times) {
@@ -71,7 +71,7 @@ async function readReview(req, res) {
             }
           }
         }
-      }
+      
     res.status(200).send({ reviewInfo, msg: "후기를 읽어옵니다." });
   } catch (error) {
     res.status(400).send({ errorMessage: "후기 조회에 실패하였습니다." });

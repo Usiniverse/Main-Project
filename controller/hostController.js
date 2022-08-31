@@ -373,13 +373,13 @@ async function getDetailAcc(req, res) {
     const timeNow = Date.parse(Date());
     const diff = timeNow - writtenTime;
 
-    if (diff > 1123200000) {
-    } else {
+    
       const times = [
         { time: "분", milliSeconds: 1000 * 60 },
         { time: "시간", milliSeconds: 1000 * 60 * 60 },
         { time: "일", milliSeconds: 1000 * 60 * 60 * 24 },
         { time: "주", milliSeconds: 1000 * 60 * 60 * 24 * 7 },
+        { time: "달", milliSeconds: 1000 * 60 * 60 * 24 * 30 },
       ].reverse();
 
       for (const value of times) {
@@ -433,7 +433,7 @@ async function getDetailAcc(req, res) {
           };
         }
       }
-    }
+    
 
     let isSave = await saves.findOne({
       where: { hostId: hostId, userId: queryData.userId },

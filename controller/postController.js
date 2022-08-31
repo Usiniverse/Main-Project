@@ -190,6 +190,7 @@ async function GetPostingList(req, res) {
         { time: "시간", milliSeconds: 1000 * 60 * 60 },
         { time: "일", milliSeconds: 1000 * 60 * 60 * 24 },
         { time: "주", milliSeconds: 1000 * 60 * 60 * 24 * 7 },
+        { time: "달", milliSeconds: 1000 * 60 * 60 * 24 * 30 },
       ].reverse();
       const postComments = await Comments.findAll({
         where: { postId: post.postId },
@@ -211,8 +212,7 @@ async function GetPostingList(req, res) {
         islike = false;
       }
 
-      if (diff > 1123200000) {
-      } else {
+      
         for (const value of times) {
           const betweenTime = Math.floor(diff / value.milliSeconds);
           if (betweenTime > 0) {
@@ -270,7 +270,7 @@ async function GetPostingList(req, res) {
             allPost[i] = post;
           }
         }
-      }
+      
       await posts.update(
         { likeNum: likeNum, commentNum: commentNum },
         { where: { postId: post.postId } }
@@ -365,9 +365,9 @@ async function GetPost(req, res) {
       ].reverse();
       for (const value of times) {
         const betweenTime = Math.floor(diff / value.milliSeconds);
-console.log(betweenTime);
+
         if (betweenTime > 0) {
-          console.log("1번---------------------------", betweenTime, value.time);
+         
           allPost = [{
             postId: allPostInfo.postId,
             userId: allPostInfo.userId,
